@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.center{
+  scrollbar-width: thin;
+  scrollbar-color: #696969 #00000000;}
+  
+  .shdfksdhf{
+    background-color: #a9a9a9;
+  }
