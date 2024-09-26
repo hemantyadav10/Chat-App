@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { db } from '../lib/firebase'
 import { useUserStore } from '../lib/userStore'
 import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
@@ -15,6 +15,8 @@ function ChatList() {
   const { changeChat, user } = useChatStore()
   const [searchText, setSearchText] = useState('')
   const [loadingChatList, setLoadingChatList] = useState(false);
+  const memoizedChats = useMemo(() => chats, [JSON.stringify(chats)]);
+
 
   useEffect(() => {
     setLoadingChatList(true)
@@ -50,14 +52,19 @@ function ChatList() {
 
 
   useEffect(() => {
-    const unsubscribes = chats.map(chat => {
+    const unsubscribes = memoizedChats.map(chat => {
       const userStatusRef = doc(db, 'users', chat.user.id);
       return onSnapshot(userStatusRef, (userDoc) => {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setChats((prevChats) =>
-            prevChats.map((c) => c.chatId === chat.chatId ? { ...c, user: { ...c.user, online: userData.online } } : c)
+            prevChats.map((c) =>
+              c.chatId === chat.chatId && c.user.online !== userData.online 
+                ? { ...c, user: { ...c.user, online: userData.online } }
+                : c
+            )
           );
+          
         }
       });
     });
@@ -65,7 +72,7 @@ function ChatList() {
     return () => {
       unsubscribes.forEach(unsub => unsub());
     };
-  }, [chats, currentUser.id]);
+  }, [ currentUser.id, memoizedChats]);
   
 
 
