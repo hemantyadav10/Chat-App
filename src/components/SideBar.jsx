@@ -122,8 +122,8 @@ function SideBar({ openSideMenu, setOpenSideMenu }) {
 
 
   return (
-    <div className={`absolute z-50 h-screen  bg-slate-900 ${openSideMenu ? "" : "-translate-x-full "}  w-full sm:w-96 sm:border-r border-slate-700/80 flex flex-col gap-6 py-4 px-6 duration-200 ease-in-out`}>
-      <span className='absolute block right-4 top-4 sm:hidden'>
+    <div className={`absolute z-50 h-screen  bg-slate-900 ${openSideMenu ? "" : "-translate-x-full "}  w-full sm:w-96 sm:border-r border-slate-700/80 flex flex-col gap-6 py-4 px-6 duration-500 ease-in-out`}>
+      <span className='absolute flex p-1 rounded-full right-4 top-4 hover:bg-slate-800 active:bg-slate-700'>
         <button
           aria-label='close'
           onClick={() => setOpenSideMenu(false)}

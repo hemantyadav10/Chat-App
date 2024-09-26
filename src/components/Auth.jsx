@@ -16,7 +16,7 @@ function Auth() {
               'Create an Account'
           }
         </h1>
-        <div className='relative flex w-full gap-8'>
+        <div className='relative flex w-full '>
           <button
             className={` rounded-xl z-10 w-full ${isLoginPage ? '' : 'hover:bg-slate-800 active:bg-slate-700'}   `}
             onClick={() => setIsLoginPage(true)}

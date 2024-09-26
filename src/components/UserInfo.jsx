@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useUserStore } from '../lib/userStore'
-import ContextMenubutton from '../assets/ContextMenubutton';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '../lib/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -75,11 +74,15 @@ function UserInfo({ setOpenSideMenu }) {
         <div ref={menuRef} className='relative'>
           <button
             aria-label='Menu'
-            title='Menu'
+            title={currentUser.username}
             onClick={handleMenuClick}
-            className={`flex items-center p-1 transition-colors rounded-full size-8 hover:bg-slate-700 active:bg-slate-600 ${openMenu && 'bg-slate-700'} opacity-80`}
+            className={`flex items-center p-1 transition-colors rounded-full size-10 hover:bg-slate-700 active:bg-slate-600 ${openMenu && 'bg-slate-700'} `}
           >
-            <ContextMenubutton />
+            <img
+              src={currentUser.avatar}
+              alt={currentUser.username + 'profile image'}
+              className='object-cover object-center w-full h-full rounded-full'
+            />
           </button>
           {openMenu && <div className='absolute right-0 z-10 w-40 py-1 mt-2 rounded-md shadow-md top-full bg-slate-700 shadow-black/50'>
             <button
@@ -87,13 +90,13 @@ function UserInfo({ setOpenSideMenu }) {
                 setOpenMenu(false)
                 setOpenSideMenu(true)
               }}
-              className='flex items-center w-full gap-2 p-2 px-3 text-sm transition-colors hover:bg-slate-800 active:bg-slate-700 opacity-90'>
+              className='flex items-center w-full gap-2 p-2 px-3 text-sm transition-colors hover:bg-slate-800 active:bg-slate-800/50 opacity-90'>
               <ProfileIcon className=' size-5' />
               Profile
             </button>
             <button
               onClick={handleSignout}
-              className='flex items-center w-full gap-2 p-2 px-4 text-sm transition-colors hover:bg-slate-800 active:bg-slate-700 opacity-90'>
+              className='flex items-center w-full gap-2 p-2 px-4 text-sm transition-colors hover:bg-slate-800 active:bg-slate-700 opacity-90 active:bg-slate-800/50'>
               <LogoutIcon className='size-6' />
               Logout
             </button>

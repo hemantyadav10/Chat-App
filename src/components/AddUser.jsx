@@ -104,7 +104,7 @@ function AddUser({ setShowAddContact }) {
       </div>
       <form
         onSubmit={handleUserSearch}
-        className='p-4 mt-10 space-y-4 rounded-2xl w-96 bg-slate-800'
+        className='p-3 mt-10 space-y-4 rounded-xl w-96 bg-slate-800'
       >
         <div className='relative flex'>
           <input
@@ -114,9 +114,9 @@ function AddUser({ setShowAddContact }) {
             name='username'
             value={username}
             onChange={e => setUsername(e.target.value)}
-            className='flex-1 py-3 pl-10 pr-5 rounded-lg outline-none bg-slate-900 focus:ring-2 ring-cyan-600'
+            className='flex-1 py-2 pl-10 pr-5 rounded-lg outline-none bg-slate-900 focus:ring-1 ring-cyan-600'
           />
-          <span className='absolute -translate-y-1/2 pointer-events-none top-1/2 left-3'>
+          <span className='absolute -translate-y-1/2 pointer-events-none top-1/2 left-3 opacity-60'>
             <SearchIcon />
           </span>
         </div>
@@ -138,7 +138,7 @@ function AddUser({ setShowAddContact }) {
                   type='button'
                   onClick={handleAdd}
                   disabled={addingUser}
-                  className='px-2 py-1 transition-colors rounded-md bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 disabled:opacity-50'
+                  className='px-3 py-2 text-xs transition-colors rounded-md bg-cyan-600 hover:bg-cyan-700 active:bg-cyan-800 disabled:opacity-50'
                 >
                   Add User
                 </button>

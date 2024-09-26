@@ -34,6 +34,7 @@ function Chat({ setShowUserInfo, showUserInfo }) {
   }, [chatMessages?.messages, image?.file])
 
   useEffect(() => {
+    setOpenEmoji(false)
     if (chatId) {
       const unSub = fetchChatMessages(chatId)
       return () => {
@@ -103,12 +104,13 @@ function Chat({ setShowUserInfo, showUserInfo }) {
 
   const handleEmoji = (e) => {
     setText(prev => prev + e.emoji)
-    setOpenEmoji(false)
+    // setOpenEmoji(false)
   }
 
   const handleSendMessage = async (e) => {
     e.preventDefault()
     if (text === '') return;
+    if (openEmoji) setOpenEmoji(false)
     setText('')
     textInputRef?.current?.focus()
     try {
@@ -147,7 +149,7 @@ function Chat({ setShowUserInfo, showUserInfo }) {
   }
 
   return (
-    <div className={`${!chatId && 'hidden sm:block'} col-span-12 sm:col-span-8  h-screen bg-slate-950 ${showUserInfo ? 'lg:col-span-5' : 'lg:col-span-8'}`}>
+    <div className={`${!chatId && 'hidden sm:block'} col-span-12 sm:col-span-8  h-screen bg-slate-950 ${showUserInfo ? 'lg:col-span-5' : 'lg:col-span-8'} `}>
       {showfullImage && <FullScreenImageComponent />}
       {!chatId ?
         <div className='grid w-full h-full place-content-center text-cyan-600'>
@@ -319,69 +321,73 @@ function Chat({ setShowUserInfo, showUserInfo }) {
 
             </div>
           </div>
+          {openEmoji && <EmojiPicker
+            theme='dark'
+            onEmojiClick={handleEmoji}
+            autoFocusSearch={false}
+            style={{ backgroundColor: '#1e293b', width: '100%', height: '350px', borderRadius: '0', }}
+            searchDisabled
+          />
+          }
           <form
             onSubmit={handleSendMessage}
-            className='flex items-center gap-2 p-2 px-4 m-4 bg-slate-800 bottom rounded-xl'
+            // px-4 m-4 
+            className='relative flex items-center w-full p-3 bottom'
           >
-            <div
-              title='Attach image'
-              className='p-1 transition-colors rounded-full cursor-pointer hover:text-cyan-400 opacity-60 active:bg-slate-600'
-            >
-              <label
-                htmlFor="upload_Image"
-                className='cursor-pointer'
+            <div className='flex items-center w-full h-full p-2 px-4 bg-slate-800 rounded-xl'>
+              <div
+                title='Attach image'
+                className='p-1 transition-colors rounded-full cursor-pointer hover:text-cyan-400 opacity-60 active:bg-slate-600'
               >
-                <AttachIcon />
-              </label>
+                <label
+                  htmlFor="upload_Image"
+                  className='cursor-pointer'
+                >
+                  <AttachIcon />
+                </label>
+                <input
+                  disabled={isCurrentUserBlocked || isReceiverBlocked}
+                  id='upload_Image'
+                  type="file"
+                  hidden
+                  onChange={handleImageUpload}
+                  accept='image/*'
+                />
+              </div>
               <input
                 disabled={isCurrentUserBlocked || isReceiverBlocked}
-                id='upload_Image'
-                type="file"
-                hidden
-                onChange={handleImageUpload}
-                accept='image/*'
+                ref={textInputRef}
+                value={text}
+                onChange={(e) => {
+                  setText(e.target.value)
+                }}
+                type="text"
+                className='w-full p-2 px-2 bg-transparent outline-none disabled:opacity-50'
+                placeholder={(isCurrentUserBlocked || isReceiverBlocked) ? "You cannot send a message" : "Type a message..."}
               />
-            </div>
-            <input
-              disabled={isCurrentUserBlocked || isReceiverBlocked}
-              ref={textInputRef}
-              value={text}
-              onChange={(e) => {
-                setText(e.target.value)
-              }}
-              type="text"
-              className='w-full p-2 px-2 bg-transparent outline-none disabled:opacity-50'
-              placeholder={(isCurrentUserBlocked || isReceiverBlocked) ? "You cannot send a message" : "Type a message..."}
-            />
-            <div className='relative'>
               <button
                 aria-label='emojis'
                 title='Send Emojis'
-                disabled={isCurrentUserBlocked || isReceiverBlocked}
+                // disabled={isCurrentUserBlocked || isReceiverBlocked}
                 type='button'
+
                 onClick={() => {
                   setOpenEmoji(!openEmoji)
+                  console.log('hello')
+
                 }}
                 className={`p-1 transition-colors rounded-full hover:text-cyan-400 active:bg-slate-600 ${openEmoji && 'text-cyan-400'} opacity-60`}
               >
                 <EmojiIcon />
               </button>
-              <div className='absolute right-0 mb-6 bottom-full' >
-                <EmojiPicker
-                  theme='dark'
-                  open={openEmoji}
-                  onEmojiClick={handleEmoji}
-                  autoFocusSearch={false}
-                  style={{ backgroundColor: '#1e293b' }}
-                  emojiStyle='facebook'
-                />
-              </div>
+
+
             </div>
             <button
               aria-label='send'
               disabled={isCurrentUserBlocked || isReceiverBlocked}
               type='submit'
-              className='ml-3 transition-colors text-cyan-400 hover:text-cyan-500 active:text-cyan-600 disabled:opacity-50'
+              className='flex items-center justify-center p-4 ml-3 transition-colors rounded-full text-cyan-500 hover:text-white hover:bg-cyan-700 disabled:opacity-50 bg-slate-800 size-14 active:opacity-70 active:text-white'
             >
               <SendButton />
             </button>

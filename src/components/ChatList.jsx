@@ -66,7 +66,7 @@ function ChatList() {
       unsubscribes.forEach(unsub => unsub());
     };
   }, [chats, currentUser.id]);
-
+  
 
 
   const handleOpenChat = async (chat) => {
@@ -94,7 +94,7 @@ function ChatList() {
           value={searchText}
           onChange={e => setSearchText(e.target.value)}
           type="text"
-          className='w-full py-2 pl-10 pr-5 rounded-lg outline-none bg-slate-800 focus:ring-2 ring-cyan-600'
+          className='w-full py-2 pl-10 pr-5 rounded-lg outline-none bg-slate-800 focus:ring-1 ring-cyan-600'
           placeholder='Search '
         />
         <span className='absolute -translate-y-1/2 pointer-events-none opacity-60 top-1/2 left-7'>
@@ -122,7 +122,7 @@ function ChatList() {
                   className='object-cover object-center w-full h-full rounded-full aspect-square '
                 />
                 {chat.user.online &&
-                  <span className='absolute bottom-0 flex w-3 h-3 translate-x-full bg-green-500 rounded-full left-1/2'></span>
+                  <span className='absolute bottom-0 flex w-3 h-3 translate-x-full  rounded-full bg-[#14ff14] left-1/2'></span>
                 }
               </div>
               <div className='flex flex-col flex-1 gap-1'>
